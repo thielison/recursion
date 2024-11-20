@@ -3,30 +3,31 @@
 // should return [0, 1, 1, 2, 3, 5, 8, 13], and an input of [105, 79, 100, 110]
 // should return [79, 100, 105, 110].
 
-const merge = (A, B) => {
-    const mergedArray = [];
+const merge = (leftArray, rightArray) => {
+    const sortedArray = [];
 
     let i = 0;
     let j = 0;
-    let k = 0;
 
-    while (i <= A.length - 1 && j <= B.length - 1) {
-        if (A[i] < B[j]) {
-            mergedArray[k++] = A[i++];
+    while (i < leftArray.length && j < rightArray.length) {
+        if (leftArray[i] < rightArray[j]) {
+            sortedArray.push(leftArray[i]);
+            i++;
         } else {
-            mergedArray[k++] = B[j++];
+            sortedArray.push(rightArray[j]);
+            j++;
         }
     }
 
-    for (; i <= A.length - 1; i++) {
-        mergedArray[k++] = A[i];
+    for (; i < leftArray.length; i++) {
+        sortedArray.push(leftArray[i]);
     }
 
-    for (; j <= B.length - 1; j++) {
-        mergedArray[k++] = B[j];
+    for (; j < rightArray.length; j++) {
+        sortedArray.push(rightArray[j]);
     }
 
-    return mergedArray;
+    return sortedArray;
 };
 
 const mergeSort = (arr) => {
@@ -35,13 +36,10 @@ const mergeSort = (arr) => {
     }
 
     const mid = Math.floor(arr.length / 2);
-    const low = arr.slice(0, mid);
-    const high = arr.slice(mid, arr.length);
+    const left = mergeSort(arr.slice(0, mid));
+    const right = mergeSort(arr.slice(mid, arr.length));
 
-    const l = mergeSort(low);
-    const h = mergeSort(high);
-
-    return merge(l, h);
+    return merge(left, right);
 };
 
 const array1 = [3, 2, 1, 13, 8, 5, 0, 1];
